@@ -3,7 +3,7 @@ import TeamForm from "./Components/TeamForm"
 import {useState} from "react"
 
 
-const teamMenbers = [{
+const teamMembers = [{
   name: "hairo",
   email: "hairone240@gmail.com",
   role: "fullstack"
@@ -18,17 +18,47 @@ const teamMenbers = [{
   email: "tania0@gmail.com",
   role: "designer"
 },
-]
+];
+
+const initialFormValues = {
+  name: "",
+  email: "",
+  role: "",
+}
 
 function App() {
 
-  const [Menbers, setMenbers] = useState([])
+  const [members, setMenbers] = useState([])
+  const [formValues, setFormValues] = useState(initialFormValues)
+
+  const updateForm = (inputName, inputValue) => {
+    setFormValues({
+      ...formValues,
+      [inputName] : inputValue
+    });
+  };
+
+  const submitForm = () => {
+    const newMember = {
+      name: formValues.name.trim(),
+      email: formValues.email.trim(),
+      role: formValues.role,
+    };
+    setMenbers([...teamMembers, newMember]);
+    setFormValues(initialFormValues)
+  }
   
-
-
   return (
-   <TeamForm> </TeamForm>
-  //  <Menbers></Menbers>
+    <div >
+    <TeamForm
+    values={formValues}
+    update={updateForm}
+    submit={submitForm}
+    />
+    {members.map((member) => {
+      return member;
+    })}
+   </div>
   );
 }
 
