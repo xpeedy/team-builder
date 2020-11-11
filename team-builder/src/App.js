@@ -47,7 +47,7 @@ function App() {
     };
     if (!newMember.name || !newMember.email || !newMember.role) return;
 
-    setMenbers({...teamMembers, newMember});
+    setMenbers({members, newMember});
     setFormValues(initialFormValues)
 
   }
@@ -59,10 +59,12 @@ function App() {
     update={updateForm}
     submit={submitForm}
     />
-    
     {members.map((member) => {
-      return <Member key={member.id} details={member} />;
+      return <Member key={member.id} details={member}
+      // {...console.log(members)} 
+      />;
     })}
+    {console.log(members)}
    </div>
   );
 }

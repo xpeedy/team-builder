@@ -9,7 +9,7 @@ function MenberForm (props){
     };
 
     const onSubmit = (event) => {
-        event.defaultPrevented(); //prevents the page to reload
+        event.preventDefault(); //prevents the page to reload
         submit();
     }
 
