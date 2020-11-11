@@ -1,5 +1,6 @@
 import './App.css';
 import TeamForm from "./Components/TeamForm"
+import Member from "./Components/Member"
 import {useState} from "react"
 
 
@@ -28,7 +29,7 @@ const initialFormValues = {
 
 function App() {
 
-  const [members, setMenbers] = useState([])
+  const [members, setMenbers] = useState(teamMembers)
   const [formValues, setFormValues] = useState(initialFormValues)
 
   const updateForm = (inputName, inputValue) => {
@@ -44,8 +45,11 @@ function App() {
       email: formValues.email.trim(),
       role: formValues.role,
     };
-    setMenbers([...teamMembers, newMember]);
+    if (!newMember.name || !newMember.email || !newMember.role) return;
+
+    setMenbers({...teamMembers, newMember});
     setFormValues(initialFormValues)
+
   }
   
   return (
@@ -55,8 +59,9 @@ function App() {
     update={updateForm}
     submit={submitForm}
     />
+    
     {members.map((member) => {
-      return member;
+      return <Member key={member.id} details={member} />;
     })}
    </div>
   );
