@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function member(props) {
+export default function Member(props) {
   const { details } = props
 
   if (!details) {

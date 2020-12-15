@@ -1,25 +1,27 @@
 import './App.css';
 import TeamForm from "./Components/TeamForm"
 import Member from "./Components/Member"
-import {useState} from "react"
+import { useEffect, useState } from "react"
+import axios from "./axios";
 
 
-const teamMembers = [{
-  name: "hairo",
-  email: "hairone240@gmail.com",
-  role: "fullstack"
-},
-{
-  name: "joseph",
-  email: "joseph@gmail.com",
-  role: "frontend"
-},
-{
-  name: "tania",
-  email: "tania0@gmail.com",
-  role: "designer"
-},
-];
+
+// const teamMembers = [{
+//   name: "hairo",
+//   email: "hairone240@gmail.com",
+//   role: "fullstack"
+// },
+// {
+//   name: "joseph",
+//   email: "joseph@gmail.com",
+//   role: "frontend"
+// },
+// {
+//   name: "tania",
+//   email: "tania0@gmail.com",
+//   role: "designer"
+// },
+// ];
 
 const initialFormValues = {
   name: "",
@@ -29,7 +31,7 @@ const initialFormValues = {
 
 function App() {
 
-  const [members, setMenbers] = useState(teamMembers)
+  const [members, setMenbers] = useState([])
   const [formValues, setFormValues] = useState(initialFormValues)
 
   const updateForm = (inputName, inputValue) => {
@@ -37,6 +39,7 @@ function App() {
       ...formValues,
       [inputName] : inputValue
     });
+    // console.log(formValues)
   };
 
   const submitForm = () => {
@@ -47,10 +50,25 @@ function App() {
     };
     if (!newMember.name || !newMember.email || !newMember.role) return;
 
-    setMenbers({members, newMember});
-    setFormValues(initialFormValues)
+    axios
+    .post("fakeapi.com", newMember)
+    .then((res) =>{
+      setMenbers([newMember, ...members])
+      setFormValues(initialFormValues)
+    })
+    
+    // console.log(newMember)
 
   }
+  // console.log(members)
+
+  useEffect(() => {
+    axios
+    .get("fakeapi.com")
+    .then((res) => 
+      setMenbers(res.data)
+    )
+  },[])
   
   return (
     <div >
@@ -61,10 +79,9 @@ function App() {
     />
     {members.map((member) => {
       return <Member key={member.id} details={member}
-      // {...console.log(members)} 
+      // {...console.log(members)} key={member.id}
       />;
     })}
-    {console.log(members)}
    </div>
   );
 }
